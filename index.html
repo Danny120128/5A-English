@@ -33,6 +33,10 @@
   --s-learn:#F2A541;
   --s-fam:#5C7CF0;
   --s-mast:#169A6B;
+  --warn:#9A5800;
+  --warn-soft:#FCEFD9;
+  --q0:#E3E8F8; --q1:#C2CDF3; --q2:#97A8EA; --q3:#6A82DD; --q4:#4361D0; --q5:#2443C9;
+  --q-lo:#13203A; --q-hi:#FFFFFF;
   --shadow:0 1px 0 rgba(19,32,58,.05), 0 10px 28px -16px rgba(19,32,58,.28);
   --lift:0 -10px 28px -18px rgba(19,32,58,.55);
   --f-display:"Bricolage Grotesque","Avenir Next","Segoe UI","PingFang HK","Noto Sans HK","Noto Sans CJK TC","Microsoft JhengHei",system-ui,sans-serif;
@@ -48,6 +52,9 @@
     --accent:#8197FF; --accent-ink:#0D1424; --accent-soft:#1F2C55;
     --hl:#F4C430; --hl-ink:#13203A; --good:#3CC593; --good-soft:#123A2F; --bad:#FF7D73; --bad-soft:#40201F;
     --s-new:#3A4767; --s-learn:#E59A35; --s-fam:#7D95FF; --s-mast:#3CC593;
+    --warn:#F2A541; --warn-soft:#3A2A12;
+    --q0:#1D2747; --q1:#25366A; --q2:#304C94; --q3:#4166C2; --q4:#6386EC; --q5:#9DB1FF;
+    --q-lo:#E6EBF5; --q-hi:#0D1424;
     --shadow:0 1px 0 rgba(0,0,0,.25), 0 12px 30px -16px rgba(0,0,0,.6);
     --lift:0 -10px 28px -16px rgba(0,0,0,.8);
     color-scheme:dark;
@@ -58,6 +65,9 @@
   --accent:#8197FF; --accent-ink:#0D1424; --accent-soft:#1F2C55;
   --hl:#F4C430; --hl-ink:#13203A; --good:#3CC593; --good-soft:#123A2F; --bad:#FF7D73; --bad-soft:#40201F;
   --s-new:#3A4767; --s-learn:#E59A35; --s-fam:#7D95FF; --s-mast:#3CC593;
+  --warn:#F2A541; --warn-soft:#3A2A12;
+  --q0:#1D2747; --q1:#25366A; --q2:#304C94; --q3:#4166C2; --q4:#6386EC; --q5:#9DB1FF;
+  --q-lo:#E6EBF5; --q-hi:#0D1424;
   --shadow:0 1px 0 rgba(0,0,0,.25), 0 12px 30px -16px rgba(0,0,0,.6);
   --lift:0 -10px 28px -16px rgba(0,0,0,.8);
   color-scheme:dark;
@@ -82,13 +92,13 @@ p{margin:0}
 /* ---------- top bar ---------- */
 .topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
 .topbar-in{
-  max-width:1040px;margin:0 auto;display:flex;align-items:center;gap:14px;padding-block:8px;
+  max-width:1120px;margin:0 auto;display:flex;align-items:center;gap:12px;padding-block:8px;
   padding-left:max(16px, env(safe-area-inset-left,0px));padding-right:max(16px, env(safe-area-inset-right,0px));
 }
 .brand{display:flex;align-items:center;gap:10px;background:none;border:0;padding:0;min-height:var(--tap);font-family:var(--f-display);font-weight:800;font-size:19px;letter-spacing:-.02em;flex:none}
 .brand-mark{display:inline-grid;place-items:center;width:36px;height:36px;border-radius:9px;background:var(--hl);color:var(--hl-ink);font-size:14px;transform:rotate(-4deg)}
 .tabs{display:flex;gap:4px;margin-left:auto;flex:none}
-.tab{background:none;border:0;padding:0 14px;min-height:var(--tap);border-radius:10px;color:var(--muted);font-weight:700;font-size:15px;white-space:nowrap}
+.tab{background:none;border:0;padding:0 12px;min-height:var(--tap);border-radius:10px;color:var(--muted);font-weight:700;font-size:15px;white-space:nowrap}
 .tab[aria-current="page"]{background:var(--accent-soft);color:var(--accent)}
 .top-actions{display:flex;gap:8px;align-items:center;flex:none}
 .chip{display:inline-flex;align-items:center;gap:5px;padding:0 10px;height:36px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);font-size:13px;font-weight:700;color:var(--ink);white-space:nowrap}
@@ -363,6 +373,115 @@ label.lbl{display:block;font-size:13px;font-weight:700;color:var(--muted);margin
 .toast.on{opacity:1;transform:translateX(-50%) translateY(0)}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 
+/* ---------- teacher view ---------- */
+.t-btn{gap:6px;padding:0 12px}
+.t-btn svg{width:19px;height:19px}
+.t-head{display:none;align-items:center;gap:10px;min-width:0}
+.t-title{font-family:var(--f-display);font-weight:700;font-size:17px;white-space:nowrap}
+.demo-badge{font-family:var(--f-mono);font-size:11px;font-weight:700;letter-spacing:.08em;padding:3px 8px;border-radius:6px;background:var(--hl);color:var(--hl-ink)}
+#t-exit{display:none}
+body.teacher .t-head{display:flex}
+body.teacher #t-exit{display:inline-flex}
+body.teacher .top-actions{margin-left:auto}
+body.teacher #tabs,body.teacher #chip-streak,body.teacher .chip.xp,body.teacher #teacher-btn,body.teacher .bottom-nav{display:none!important}
+.t-banner{display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:14px;border:1.5px dashed var(--accent);background:var(--accent-soft);font-size:15px}
+.t-banner svg{flex:none;width:22px;height:22px;color:var(--accent);margin-top:1px}
+.t-nav{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.kpi{padding:16px 18px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.kpi .k{font-size:13px;font-weight:700;color:var(--muted)}
+.kpi .v{font-family:var(--f-display);font-weight:800;font-size:32px;letter-spacing:-.02em;line-height:1.1;font-variant-numeric:tabular-nums}
+.kpi .v small{font-size:17px;color:var(--muted);font-weight:700}
+.kpi .sub{font-size:13px;color:var(--muted)}
+.delta{font-family:var(--f-mono);font-size:13px;font-weight:700;white-space:nowrap}
+.delta.up{color:var(--good)}
+.delta.down{color:var(--bad)}
+.delta.flat{color:var(--muted)}
+.chart-h{display:flex;justify-content:space-between;align-items:baseline;gap:4px 10px;flex-wrap:wrap}
+.chart-h h3{font-size:18px}
+.bchart{padding-left:38px}
+.bplot{position:relative;height:170px}
+.gl{position:absolute;left:0;right:0;border-top:1px solid var(--line)}
+.gl span{position:absolute;left:-38px;width:32px;top:-8px;text-align:right;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.bars{position:absolute;inset:0;display:grid;grid-template-columns:repeat(28,minmax(0,1fr));gap:2px;align-items:end}
+.bars .c{height:100%;display:flex;align-items:flex-end;justify-content:center;cursor:pointer}
+.bars .b{display:block;width:100%;max-width:20px;background:var(--accent);border-radius:4px 4px 0 0}
+.bars .b.zero{background:var(--line);height:2px!important;border-radius:1px}
+.bars .b.today{background:var(--hl)}
+.xl{display:grid;grid-template-columns:repeat(28,minmax(0,1fr));gap:2px;margin-top:6px;font-family:var(--f-mono);font-size:11px;color:var(--muted)}
+.xl span{white-space:nowrap}
+.lc{width:100%;min-height:190px}
+.lc svg{display:block;overflow:visible}
+.lc .grid{stroke:var(--line);stroke-width:1}
+.lc .ax{fill:var(--muted);font-family:var(--f-mono);font-size:11px}
+.lc .ln{stroke:var(--accent);stroke-width:2;fill:none;stroke-linejoin:round;stroke-linecap:round}
+.lc .dot{fill:var(--accent);stroke:var(--surface);stroke-width:2}
+.lc .vl{fill:var(--ink);font-family:var(--f-mono);font-size:12px;font-weight:700}
+.lc .hit{fill:transparent;cursor:pointer}
+.st{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:700;padding:3px 10px 3px 8px;border-radius:999px;white-space:nowrap}
+.st svg{width:14px;height:14px;flex:none}
+.st.good{background:var(--good-soft);color:var(--good)}
+.st.warn{background:var(--warn-soft);color:var(--warn)}
+.st.bad{background:var(--bad-soft);color:var(--bad)}
+.st.none{background:var(--surface-2);color:var(--muted)}
+.attn{display:flex;flex-direction:column}
+.attn > div{display:flex;justify-content:space-between;align-items:center;gap:4px 10px;padding:4px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.attn > div:last-child{border-bottom:0}
+.attn .why{font-size:13px;color:var(--muted)}
+.t-name{background:none;border:0;padding:0;min-height:var(--tap);font-weight:700;font-size:16px;color:var(--accent);text-align:left;display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+.tag{font-family:var(--f-mono);font-size:10px;font-weight:700;padding:1px 6px;border-radius:5px;border:1px solid currentColor;color:var(--muted);white-space:nowrap}
+.tag.local{color:var(--accent)}
+.tstu td{vertical-align:middle;padding-block:6px}
+.tstu td:first-child{min-width:150px}
+.tstu .t-name{white-space:nowrap}
+.tstu td .muted{display:block;line-height:1.3}
+.tstu tbody tr{cursor:pointer}
+.mbar{display:flex;align-items:center;gap:8px;min-width:110px}
+.mbar .track{flex:1;height:8px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden}
+.mbar .track i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;max-width:360px}
+.cal span{aspect-ratio:1;border-radius:5px;background:var(--surface-2);border:1px solid var(--line);cursor:pointer}
+.cal-days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;max-width:360px;font-family:var(--f-mono);font-size:10px;color:var(--muted);text-align:center}
+.scale{display:flex;align-items:center;gap:4px 6px;font-size:12px;color:var(--muted);flex-wrap:wrap}
+.scale i{width:14px;height:14px;border-radius:3px;display:inline-block;border:1px solid var(--line)}
+.q0{background:var(--q0)!important}.q1{background:var(--q1)!important}.q2{background:var(--q2)!important}
+.q3{background:var(--q3)!important}.q4{background:var(--q4)!important}.q5{background:var(--q5)!important}
+.qn{background:var(--surface-2)!important}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.wchip{font-size:14px;font-weight:700;padding:6px 10px;border-radius:8px;cursor:pointer;border:1px solid transparent;min-height:34px;display:inline-flex;align-items:center}
+.wchip.lo{color:var(--q-lo)}
+.wchip.hi{color:var(--q-hi)}
+.wchip.qn{color:var(--muted);border-color:var(--line)}
+.wl-head,.wl-row{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1.4fr) 72px 84px;gap:12px;align-items:center;padding:10px 16px}
+.wl-head{font-family:var(--f-mono);font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);border-bottom:1px solid var(--line)}
+.wl-row{border-bottom:1px solid var(--line);min-height:54px}
+.wl-row:last-child{border-bottom:0}
+.wl-row .num,.wl-head .num{text-align:right;font-family:var(--f-mono)}
+.wl-row .num{font-weight:700}
+.wl-w{min-width:0;overflow-wrap:anywhere}
+.accbar{display:flex;align-items:center;gap:8px}
+.accbar .track{flex:1;height:10px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);overflow:hidden}
+.accbar .track i{display:block;height:100%;background:var(--accent)}
+.accbar .mono{min-width:42px;text-align:right;font-weight:700;font-size:14px}
+.hm-wrap{overflow-x:auto;padding-bottom:6px}
+.hm{border-collapse:separate;border-spacing:2px}
+.hm th{font-weight:500}
+.hm .hm-name{position:sticky;left:0;z-index:1;background:var(--surface);text-align:left;font-size:13px;font-weight:700;padding-right:8px;white-space:nowrap}
+.hm .hm-w{vertical-align:bottom;height:122px;padding:0 0 4px}
+.hm .hm-w span{writing-mode:vertical-rl;transform:rotate(180deg);font-size:11px;color:var(--muted);white-space:nowrap;display:inline-block}
+.hm td{padding:0}
+.hm td span{display:block;width:18px;height:18px;border-radius:3px;cursor:pointer}
+.hm td span.qn{box-shadow:inset 0 0 0 1px var(--line)}
+.switch{display:flex;align-items:center;gap:10px;font-weight:700;min-height:var(--tap);cursor:pointer}
+.switch input{width:22px;height:22px;accent-color:var(--accent);flex:none}
+.plain-list{margin:0;padding-left:20px;display:grid;gap:4px;color:var(--muted)}
+.cw-list{display:flex;flex-direction:column}
+.cw-list > div{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.cw-list > div:last-child{border-bottom:0}
+.t-card{display:flex;gap:16px;align-items:center;justify-content:space-between;padding:18px 20px;flex-wrap:wrap}
+.t-card .glyph{background:var(--hl);color:var(--hl-ink)}
+.tip{position:fixed;z-index:60;background:var(--ink);color:var(--bg);padding:8px 11px;border-radius:9px;font-size:13px;line-height:1.45;white-space:pre-line;max-width:250px;pointer-events:none;box-shadow:var(--shadow)}
+
 /* hover effects only where a real pointer exists, so taps on an iPad never leave a highlighted option behind */
 @media (hover:hover) and (pointer:fine){
   .tab:hover{background:var(--surface-2);color:var(--ink)}
@@ -382,9 +501,13 @@ label.lbl{display:block;font-size:13px;font-weight:700;color:var(--muted);margin
 }
 
 /* ---------- responsive ---------- */
-@media (max-width:1000px){ .brand-text{display:none} }
+@media (max-width:1240px){ .brand-text{display:none} }
+@media (max-width:1100px){ .chip.xp{display:none} }
+@media (max-width:1000px){ .brand-text,.t-btn .tb-label{display:none} .t-btn{padding:0;width:var(--tap)} }
 @media (max-width:900px){
-  .chip.xp{display:none}
+  .chip.xp,.chip-u{display:none}
+  .tab{padding:0 10px}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
   .hero{grid-template-columns:minmax(0,1fr)}
   .swap-sentence{min-height:0}
   .two-col{grid-template-columns:minmax(0,1fr)}
@@ -416,11 +539,16 @@ label.lbl{display:block;font-size:13px;font-weight:700;color:var(--muted);margin
   .match-grid{grid-template-columns:repeat(3,minmax(0,1fr))}
   .tile{min-height:80px;font-size:16px}
   .qcard{padding:20px 18px}
+  #t-exit .tb-label{display:none}
+  #t-exit{width:var(--tap);padding:0}
+  .wl-head,.wl-row{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 64px}
+  .wl-row .wl-n,.wl-head .wl-n{display:none}
 }
 @media (max-width:520px){
   .modes{grid-template-columns:minmax(0,1fr)}
   .opts{grid-template-columns:minmax(0,1fr)}
-  .chip-u{display:none}
+  .t-title{display:none}
+  .kpi .v{font-size:26px}
   .result-hero .big{font-size:52px}
   .fb-actions .btn{flex:1 1 auto}
 }
@@ -441,7 +569,10 @@ label.lbl{display:block;font-size:13px;font-weight:700;color:var(--muted);margin
       <button class="tab" data-go="board" data-i18n="nav_board">Ranking</button>
       <button class="tab" data-go="progress" data-i18n="nav_progress">My progress</button>
     </nav>
+    <div class="t-head"><span class="t-title" data-i18n="t_head">Teacher view</span><span class="demo-badge" data-i18n="demo_badge">DEMO</span></div>
     <div class="top-actions">
+      <button class="btn ghost sm" id="t-exit" data-go="home"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg><span class="tb-label" data-i18n="t_exit">Student view</span></button>
+      <button class="btn ghost sm t-btn" id="teacher-btn" data-go="teacher"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4M7 9h6M7 12h4"/></svg><span class="tb-label" data-i18n="t_entry">Teacher</span></button>
       <span class="chip" id="chip-streak"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2c1 4 5 5.5 5 11a5 5 0 0 1-10 0c0-2.5 1.2-4 2.5-5 .2 2 1 3 2 3 0-3-1-6.5.5-9Z"/></svg><span class="mono" id="streak-n">0</span><span class="chip-u" id="streak-u">days</span></span>
       <span class="chip xp"><span class="mono" id="xp-n">0</span> XP</span>
       <div class="lang" role="group" id="lang-group">
@@ -463,6 +594,7 @@ label.lbl{display:block;font-size:13px;font-weight:700;color:var(--muted);margin
 </nav>
 
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="tip" id="tip" role="tooltip" hidden></div>
 
 <script>
 (() => {
@@ -604,7 +736,33 @@ en:{
   hard_h:'Trickiest words', n_wrong:'{n} wrong', practise_these:'Practise these', hard_none:'Nothing yet. Words you get wrong will show up here.',
   reset:'Reset my progress', reset_q:'Erase all progress for {who}?', erase:'Erase', reset_done:'Progress reset',
   hi_toast:'Hi {name}. Your progress is saved under this name.', no_mistakes:'No mistakes to fix. Nice work.', no_speech:'This browser cannot read words aloud.',
-  stack_aria:'{a} new, {b} learning, {c} familiar, {d} mastered'
+  stack_aria:'{a} new, {b} learning, {c} familiar, {d} mastered',
+  t_entry:'Teacher', t_head:'Teacher view', demo_badge:'DEMO', t_exit:'Student view', open_teacher:'Open teacher view',
+  home_teacher:'Teacher view', home_teacher_d:'See class progress, the hardest words and how well each student knows each word. No password in this test version.',
+  t_banner:'<strong>Test version.</strong> The class here is made up: Student 01–30 are not real people. Practice done on this device also appears, marked “This device”. In the real version this page needs the teacher password and shows real students only.',
+  t_tab_overview:'Overview', t_tab_students:'Students', t_tab_words:'Words', t_tab_manage:'Manage', students_n:'{n} students',
+  k_active:'Active this week', k_active_sub:'practised in the last 7 days', k_answers:'Answers this week', k_acc:'Class accuracy, 7 days', k_mastered:'Words mastered, average', k_mastered_sub:'out of {n} words', k_vs:'vs last week', pts:' pts',
+  c_daily:'Answers per day', c_daily_note:'Last 28 days · today in yellow', c_daily_tip:'{d}\n{n} answers · {s} students',
+  c_weekly:'Class accuracy by week', c_weekly_note:'Last 6 weeks', c_week_tip:'Week from {d}\n{v}% correct · {n} answers', s_week_tip:'Week from {d}\n{v}% correct · {n} answers', no_data:'No answers yet.',
+  attn_h:'Needs attention', attn_none:'Everyone is on track.', hard_words:'Hardest words for the class', see_all:'See all',
+  st_active:'On track', st_watch:'Needs attention', st_inactive:'No practice 7+ days', st_new:'Not started',
+  why_drop:'Accuracy down {n} pts', why_few:'Only {n} answers this week', why_inactive:'Last practice: {d}',
+  col_student:'Student', col_ans7:'Answers, 7 d', col_acc7:'Accuracy, 7 d', col_mastered:'Mastered', col_status:'Status',
+  s_status:'Needs help first', s_name:'Name', s_acc:'Accuracy', s_mastered:'Mastered', s_last:'Last active', sort_label:'Sort students',
+  t_search:'Search students', last_prefix:'Last practice: ', ago_today:'today', ago_yest:'yesterday', ago_days:'{n} days ago', never:'never',
+  tag_local:'This device', no_students:'No students match.',
+  back_students:'All students', d_answers:'Answers', d_acc:'Accuracy', d_mastered:'Words mastered', d_streak:'Day streak', d_last:'Last practice',
+  d_weekly:'Accuracy by week', d_activity:'Practice, last 28 days', cal_tip:'{d}\n{n} answers', cal_tip_acc:'{d}\n{n} answers · {v}% correct', less:'Less', more:'More',
+  d_words:'Word mastery', d_words_note:'Darker means better known. Tap a word for details.', d_weak:'Weakest words', d_weak_none:'No weak words yet.', att_line:'{c}/{n} correct',
+  w_sort_hard:'Hardest first', w_sort_most:'Most practised', w_sort_mast:'Most mastered', w_col_word:'Word', w_acc:'Class accuracy', w_att:'Answers', w_mast:'Mastered by', sort_words:'Sort words',
+  hm_h:'Mastery map', hm_note:'One row per student, one column per word. Darker squares mean the word is better known. Hardest words are on the left. Tap a square for details.',
+  hm_none:'Not practised', lvl:'Level {n} of 5', hm_tip:'{s} · {w}\n{lvl}{att}',
+  m_words_h:'Class word list', m_words_note:'In the real version, words added here appear for every student. In this test version they are saved on this device only.', m_words_none:'No extra words added yet.',
+  m_rank_h:'Ranking', m_rank_note:"Clear today's ranking, for example after a practice round in class.", m_rank_today:'{n} scores today',
+  m_export_h:'Export', m_export_note:'Copy a summary of every student as CSV, then paste it into Excel or Google Sheets.', m_export_btn:'Copy class summary', m_csv_label:'Class summary as CSV (select all and copy)', csv_copied:'Class summary copied.',
+  m_demo_h:'Demo class', m_demo_label:'Show the made-up demo class', m_demo_note:'Turn this off to see only the practice done on this device.',
+  m_real_h:'Only in the real version', m_real_list:'<li>Teacher password, checked on the server</li><li>Your real class list</li><li>Every student’s practice arrives here automatically</li><li>Words in the class word list reach every student</li>',
+  board_demo_note:'Test version: the ranking includes the made-up demo students.'
 },
 zh:{
   nav_practice:'練習', nav_words:'詞庫', nav_words_s:'詞庫', nav_board:'排行榜', nav_progress:'我的進度', nav_progress_s:'進度',
@@ -684,7 +842,33 @@ zh:{
   hard_h:'最常錯的詞', n_wrong:'錯 {n} 次', practise_these:'練習這些詞', hard_none:'暫時沒有。答錯的詞會顯示在這裡。',
   reset:'重設我的進度', reset_q:'清除 {who} 的所有進度？', erase:'清除', reset_done:'已重設進度',
   hi_toast:'你好，{name}！你的進度會儲存在這個名字下。', no_mistakes:'沒有錯題，做得好！', no_speech:'這個瀏覽器不支援朗讀。',
-  stack_aria:'新詞 {a}，學習中 {b}，熟悉 {c}，已掌握 {d}'
+  stack_aria:'新詞 {a}，學習中 {b}，熟悉 {c}，已掌握 {d}',
+  t_entry:'老師', t_head:'老師後台', demo_badge:'示範', t_exit:'學生版', open_teacher:'進入老師後台',
+  home_teacher:'老師後台', home_teacher_d:'查看全班進度、最難的詞，以及每位同學對每個詞的掌握程度。測試版不需要密碼。',
+  t_banner:'<strong>測試版。</strong>這裡的班級是虛構的：同學 01–30 都不是真實的人。在這部裝置上做的練習也會顯示出來，標示為「本機」。正式版的老師後台需要密碼，並只顯示真實同學的數據。',
+  t_tab_overview:'總覽', t_tab_students:'同學', t_tab_words:'詞語', t_tab_manage:'管理', students_n:'{n} 位同學',
+  k_active:'本週有練習', k_active_sub:'過去 7 天有練習的同學', k_answers:'本週答題數', k_acc:'全班準確率（7 天）', k_mastered:'平均已掌握詞數', k_mastered_sub:'共 {n} 個詞', k_vs:'與上週比較', pts:' 個百分點',
+  c_daily:'每日答題數', c_daily_note:'最近 28 天 · 黃色為今日', c_daily_tip:'{d}\n答題 {n} · {s} 位同學',
+  c_weekly:'全班每週準確率', c_weekly_note:'最近 6 週', c_week_tip:'{d} 起的一週\n正確率 {v}% · 答題 {n}', s_week_tip:'{d} 起的一週\n正確率 {v}% · 答題 {n}', no_data:'暫時未有答題記錄。',
+  attn_h:'需要留意', attn_none:'全部同學進度良好。', hard_words:'全班最難的詞', see_all:'查看全部',
+  st_active:'進度良好', st_watch:'需要留意', st_inactive:'超過 7 天未練習', st_new:'未開始',
+  why_drop:'準確率下跌 {n} 個百分點', why_few:'本週只答了 {n} 題', why_inactive:'最近練習：{d}',
+  col_student:'同學', col_ans7:'答題（7 天）', col_acc7:'準確率（7 天）', col_mastered:'已掌握', col_status:'狀態',
+  s_status:'需要幫助的優先', s_name:'名字', s_acc:'準確率', s_mastered:'已掌握', s_last:'最近練習', sort_label:'排序同學',
+  t_search:'搜尋同學', last_prefix:'最近練習：', ago_today:'今天', ago_yest:'昨天', ago_days:'{n} 天前', never:'從未',
+  tag_local:'本機', no_students:'沒有符合的同學。',
+  back_students:'全部同學', d_answers:'答題數', d_acc:'準確率', d_mastered:'已掌握詞數', d_streak:'連續天數', d_last:'最近練習',
+  d_weekly:'每週準確率', d_activity:'最近 28 天的練習', cal_tip:'{d}\n答題 {n}', cal_tip_acc:'{d}\n答題 {n} · 正確率 {v}%', less:'少', more:'多',
+  d_words:'詞語掌握程度', d_words_note:'顏色越深代表越熟悉。點擊詞語查看詳情。', d_weak:'最弱的詞', d_weak_none:'暫時沒有特別弱的詞。', att_line:'答對 {c}/{n}',
+  w_sort_hard:'最難的優先', w_sort_most:'練習最多', w_sort_mast:'掌握最多', w_col_word:'詞語', w_acc:'全班準確率', w_att:'答題數', w_mast:'已掌握人數', sort_words:'排序詞語',
+  hm_h:'掌握程度熱力圖', hm_note:'每一行是一位同學，每一列是一個詞。方格顏色越深代表越熟悉，最難的詞排在左邊。點擊方格查看詳情。',
+  hm_none:'未練習', lvl:'第 {n} 級（共 5 級）', hm_tip:'{s} · {w}\n{lvl}{att}',
+  m_words_h:'班級詞表', m_words_note:'正式版中，在這裡加入的詞會同步給所有同學。測試版只會儲存在這部裝置。', m_words_none:'暫時沒有額外加入的詞。',
+  m_rank_h:'排行榜', m_rank_note:'清除今日排行榜，例如在課堂試玩之後。', m_rank_today:'今日共 {n} 個成績',
+  m_export_h:'匯出', m_export_note:'把全班同學的摘要複製為 CSV，再貼到 Excel 或 Google Sheets。', m_export_btn:'複製全班摘要', m_csv_label:'全班摘要（CSV，全選後複製）', csv_copied:'已複製全班摘要。',
+  m_demo_h:'示範班級', m_demo_label:'顯示虛構的示範班級', m_demo_note:'關掉後只會顯示這部裝置上的練習。',
+  m_real_h:'只在正式版提供', m_real_list:'<li>老師密碼，由伺服器檢查</li><li>真實的全班名單</li><li>每位同學的練習會自動傳到這裡</li><li>班級詞表會同步給所有同學</li>',
+  board_demo_note:'測試版：排行榜包含虛構的示範同學。'
 }};
 
 /* ================= HELPERS ================= */
@@ -726,18 +910,26 @@ const ICON = {
   ear:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8.5a6 6 0 1 1 12 0c0 4-4 5-4 8.5a3 3 0 0 1-6 0"/><path d="M10 9a2 2 0 1 1 4 0"/></svg>',
   bolt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 4 14h7l-1 8 9-12h-7z"/></svg>',
   pen:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/></svg>',
-  fix:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>'
+  fix:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg>',
+  teacher:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="1.5"/><path d="M8 20h8M12 16v4M7 9h6M7 12h4"/></svg>',
+  back:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>',
+  info:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg>',
+  ok:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.5 2.5L16 9.5"/></svg>',
+  warnI:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4 2.5 20h19z"/><path d="M12 10v4M12 17h.01"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>',
+  dash:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12h8"/></svg>'
 };
 
 /* ================= STORAGE (this browser only) ================= */
 const KEY = 'synonym-lab-5a.v1';
 let mem = null;
-function blankProfile(display){ return {display:display||'', progress:{}, mistakes:{}, xp:0, streak:{n:0,last:''}, act:{}, matchBest:null, speedBest:0}; }
+function blankProfile(display){ return {display:display||'', progress:{}, mistakes:{}, xp:0, streak:{n:0,last:''}, act:{}, matchBest:null, speedBest:0, log:[]}; }
 function fixProfile(p, key){
   const b=blankProfile(key);
   if(!p||typeof p!=='object') return b;
   ['progress','mistakes','act'].forEach(k=>{ if(!p[k]||typeof p[k]!=='object') p[k]={}; });
   if(!p.streak||typeof p.streak!=='object') p.streak={n:0,last:''};
+  if(!Array.isArray(p.log)) p.log=[];
   if(typeof p.xp!=='number') p.xp=0;
   if(typeof p.speedBest!=='number') p.speedBest=0;
   if(typeof p.matchBest!=='number') p.matchBest=null;
@@ -810,7 +1002,11 @@ function grade(e, ok, xp){
   if(ok){ r.right++; r.box=Math.min(5,r.box+1); delete p.mistakes[e.id]; p.xp += (xp==null?10:xp); }
   else { r.wrong++; r.box=0; p.mistakes[e.id]=(p.mistakes[e.id]||0)+1; }
   r.due = Date.now()+INTERVALS[r.box]; r.last=Date.now();
-  p.progress[e.id]=r; touchDay(p); save(); updateChrome();
+  p.progress[e.id]=r;
+  /* every answer is logged: the teacher view reads this, and the real version will send it to the class database */
+  p.log.push({t:Date.now(), w:e.id, ok:ok?1:0, m:(SES&&SES.mode)||''});
+  if(p.log.length>4000) p.log.splice(0, p.log.length-4000);
+  touchDay(p); save(); updateChrome();
 }
 function undoAsRight(e){
   if(!UNDO||UNDO.id!==e.id) return;
@@ -819,6 +1015,7 @@ function undoAsRight(e){
   if(UNDO.mistake) p.mistakes[e.id]=UNDO.mistake; else delete p.mistakes[e.id];
   p.xp=UNDO.xp;
   const k=dayKey(); if(p.act[k]) p.act[k]--;
+  if(p.log.length && p.log[p.log.length-1].w===e.id) p.log.pop();
   UNDO=null; grade(e,true);
 }
 function pickItems(n, pool){
@@ -916,12 +1113,12 @@ function questionFor(e, mode){
 
 /* ================= ROUTER / CHROME ================= */
 let VIEW='home', SES=null, timerI=null, demoT=null, demoI=0;
-const VIEWS=['home','words','board','progress'];
+const VIEWS=['home','words','board','progress','teacher'];
 function stopTimers(){ clearInterval(timerI); timerI=null; clearInterval(demoT); demoT=null; if(hasTTS){ try{speechSynthesis.cancel();}catch(e){} } }
 function go(v){
   stopTimers();
   VIEW = VIEWS.includes(v)?v:'home';
-  SES=null; W_DEL=null; BOARD_CONFIRM=false; RESET_CONFIRM=false;
+  SES=null; W_DEL=null; BOARD_CONFIRM=false; RESET_CONFIRM=false; T_CLEAR=false; T_DELW=null; hideTip();
   render(); window.scrollTo(0,0);
 }
 function updateChrome(){
@@ -938,7 +1135,9 @@ function updateChrome(){
   $('#lang-group').setAttribute('aria-label', tx('lang_group'));
   $$('#lang-group button').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.l===LANG)));
   $$('.tab[data-go], .bottom-nav [data-go]').forEach(b=>{ if(b.dataset.go===VIEW && !SES) b.setAttribute('aria-current','page'); else b.removeAttribute('aria-current'); });
+  $('#teacher-btn').setAttribute('aria-label', tx('open_teacher')); $('#t-exit').setAttribute('aria-label', tx('t_exit'));
   document.body.classList.toggle('in-session', !!SES);
+  document.body.classList.toggle('teacher', VIEW==='teacher' && !SES);
 }
 function render(){
   const v=$('#view');
@@ -946,8 +1145,10 @@ function render(){
   else if(VIEW==='words') v.innerHTML=viewWords();
   else if(VIEW==='board') v.innerHTML=viewBoard();
   else if(VIEW==='progress') v.innerHTML=viewProgress();
+  else if(VIEW==='teacher') v.innerHTML=viewTeacher();
   else { v.innerHTML=viewHome(); startSwapDemo(); }
   updateChrome();
+  if(VIEW==='teacher' && !SES) drawCharts();
 }
 
 /* ================= HOME ================= */
@@ -993,6 +1194,7 @@ function viewHome(){
       mode('listen', ICON.ear, 'm_listen', hasTTS? th('m_listen_meta') : th('m_listen_na'))+
       mode('mistakes', ICON.fix, 'm_fix', mist? th('m_fix_meta',{n:mist}) : th('m_fix_none'), mist?'<span class="badge">'+mist+'</span>':'')+
     '</div></section>'+
+    '<section class="panel t-card"><div style="display:flex;gap:14px;align-items:center;min-width:0;flex:1 1 320px"><span class="glyph">'+ICON.teacher+'</span><div style="display:flex;flex-direction:column;gap:4px;min-width:0"><span class="mode-title">'+th('home_teacher')+'</span><span class="mode-desc">'+th('home_teacher_d')+'</span></div></div><button class="btn" data-go="teacher">'+th('open_teacher')+'</button></section>'+
     '<p class="foot-note">'+th('foot_note')+'</p>';
 }
 
@@ -1297,12 +1499,13 @@ function boardDetail(r){
 function viewBoard(){
   const today=dayKey(), mode=BOARD_TAB.startsWith('match')?'match':'speed', isTime=mode==='match', allTime=BOARD_TAB.endsWith('-all');
   const best={};
-  S.board.filter(r=>r.mode===mode && (allTime || r.day===today)).forEach(r=>{ const k=r.key||norm(r.name); const b=best[k]; if(!b || (isTime? r.score<b.score : r.score>b.score)) best[k]=r; });
+  const demoRows = tDemoOn() ? demoData().board.filter(r=>r.day!==S.demoClear) : [];
+  S.board.concat(demoRows).filter(r=>r.mode===mode && (allTime || r.day===today)).forEach(r=>{ const k=r.key||norm(r.name); const b=best[k]; if(!b || (isTime? r.score<b.score : r.score>b.score)) best[k]=r; });
   const rows=Object.values(best).sort((a,b)=>isTime? a.score-b.score : b.score-a.score).slice(0,20);
   const seg=[['speed','seg_speed'],['match','seg_match'],['speed-all','seg_speed_all'],['match-all','seg_match_all']].map(([k,l])=>'<button data-act="board-tab" data-k="'+k+'" aria-pressed="'+(BOARD_TAB===k)+'">'+th(l)+'</button>').join('');
   const table = rows.length
     ? '<div class="table-wrap"><table class="board"><thead><tr><th>#</th><th>'+th('th_name')+'</th><th>'+th(allTime?'th_date':'th_played')+'</th><th class="num">'+th(isTime?'th_time':'th_score')+'</th></tr></thead><tbody>'+
-      rows.map((r,i)=>'<tr class="'+(S.current&&r.key===S.current?'me-row':'')+'"><td class="rank'+(i===0?' r1':'')+'"><span class="medal">'+(i+1)+'</span></td><td><strong>'+esc(r.name)+'</strong><br><span class="muted small">'+boardDetail(r)+'</span></td><td class="muted small">'+(allTime? esc(r.day) : new Date(r.ts).toLocaleTimeString(LANG==='zh'?'zh-HK':'en-GB',{hour:'2-digit',minute:'2-digit'}))+'</td><td class="num">'+(isTime?fmtTime(r.score):r.score)+'</td></tr>').join('')+
+      rows.map((r,i)=>'<tr class="'+(S.current&&r.key===S.current?'me-row':'')+'"><td class="rank'+(i===0?' r1':'')+'"><span class="medal">'+(i+1)+'</span></td><td><strong>'+esc(r.demoN?demoName(r.demoN):r.name)+'</strong><br><span class="muted small">'+boardDetail(r)+'</span></td><td class="muted small">'+(allTime? esc(r.day) : new Date(r.ts).toLocaleTimeString(LANG==='zh'?'zh-HK':'en-GB',{hour:'2-digit',minute:'2-digit'}))+'</td><td class="num">'+(isTime?fmtTime(r.score):r.score)+'</td></tr>').join('')+
       '</tbody></table></div>'
     : '<div class="empty"><strong>'+th(allTime?'no_scores':'no_scores_today')+'</strong><span>'+th('play_first')+'</span><button class="btn" data-start="'+mode+'">'+th('play_mode',{mode:tx(isTime?'m_match':'m_speed')})+'</button></div>';
   const clear = BOARD_CONFIRM
@@ -1311,7 +1514,7 @@ function viewBoard(){
   return '<section class="section-head"><div><p class="eyebrow">'+th('board_eyebrow')+'</p><h2>'+th('board_h')+'</h2></div><p class="small">'+th('board_sub')+'</p></section>'+
     '<div class="seg" role="group" aria-label="'+th('which_rank')+'">'+seg+'</div>'+
     '<section class="panel">'+table+'</section>'+
-    '<div class="toolbar" style="justify-content:space-between"><p class="note-line" style="flex:1 1 320px">'+th('board_note')+'</p>'+clear+'</div>';
+    '<div class="toolbar" style="justify-content:space-between"><p class="note-line" style="flex:1 1 320px">'+th('board_note')+(tDemoOn()?' '+th('board_demo_note'):'')+'</p>'+clear+'</div>';
 }
 
 /* ================= WORDS ================= */
@@ -1400,9 +1603,296 @@ function viewProgress(){
   '<div class="toolbar" style="justify-content:flex-end">'+reset+'</div>';
 }
 
+/* ================= TEACHER VIEW =================
+   Test version: a made-up class of 30 plus every name practised on this device.
+   The real version will load the same shape of data (students, answer log, word levels) from the class database. */
+const DAYMS=864e5;
+let TV='overview', TSTU=null, T_SORT='status', T_Q='', W_SORT='hard', T_CLEAR=false, T_DELW=null, T_MSG='', TIP_FOR=null;
+const tDemoOn = () => S.tdemo!==false;
+function mulberry(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+/* how much harder (+) or easier (−) each class word is for the made-up students */
+const DIFF={b3:.12,b8:.08,b9:.1,b11:.1,b12:.18,b13:.22,b14:.08,b16:.25,b19:.22,b20:.12,b21:.22,b24:.1,b26:.3,b28:.12,b29:.22,b30:.28,b31:.2,b36:.15,b15:-.1,b32:-.25,b33:-.25,b4:-.2,b5:-.12,b25:-.15,b34:-.15,b1:-.08,b23:-.05};
+function demoName(n){ return (LANG==='zh'?'同學 ':'Student ')+String(n).padStart(2,'0'); }
+let DEMO=null;
+function demoData(){
+  const dk=dayKey();
+  if(DEMO && DEMO.dk===dk) return DEMO;
+  const R=mulberry(20261027), today0=Date.parse(dk+'T00:00:00Z'), now=Date.now();
+  const kinds={4:'stop9',17:'stop12',26:'stop15',29:'new',8:'down',21:'down',5:'up',12:'up',23:'up'};
+  const list=[], board=[];
+  for(let i=1;i<=30;i++){
+    const base=.5+R()*.38, eng=.22+R()*.6, kind=kinds[i]||'';
+    const boxes={}, events=[];
+    for(let d=-41; d<=0; d++){
+      const act=R()<eng;
+      if((kind==='stop9'&&d>-9)||(kind==='stop12'&&d>-12)||(kind==='stop15'&&d>-15)||(kind==='new'&&d<-6)||!act) continue;
+      let a=base;
+      if(kind==='up') a=base-.1+.22*(d+41)/41;
+      if(kind==='down' && d>-10) a=base-.22;
+      let t=today0+d*DAYMS+(1+R()*14)*3600e3;
+      const n=6+Math.floor(R()*22);
+      let cnt=0;
+      for(let k=0;k<n;k++){
+        if(t>now) break;
+        let e;
+        if(R()<.55){ const ws=BASE.slice().sort((x,y)=>(boxes[x.id]||0)-(boxes[y.id]||0)); e=ws[Math.floor(R()*12)]; }
+        else e=BASE[Math.floor(R()*BASE.length)];
+        const b=boxes[e.id]||0, p=Math.min(.97,Math.max(.08, a-(DIFF[e.id]||0)+.045*b)), ok=R()<p?1:0;
+        boxes[e.id]= ok? Math.min(5,b+1) : 0;
+        events.push({t:Math.round(t), w:e.id, ok});
+        cnt++; t+=(15+R()*30)*1000;
+      }
+      if(cnt && d>-14 && R()<.5){
+        const ts=Math.round(Math.min(now,t));
+        board.push({demoN:i, key:'demo:'+i, mode:'speed', score:Math.round((40+a*170+R()*60)/5)*5, right:Math.round(cnt*.6), day:dayKey(ts), ts});
+        if(R()<.6) board.push({demoN:i, key:'demo:'+i, mode:'match', score:Math.round(14000+(1-a)*32000+R()*12000), misses:Math.floor(R()*4), day:dayKey(ts), ts});
+      }
+    }
+    list.push({id:'demo:'+i, n:i, events, boxes});
+  }
+  DEMO={dk, list, board};
+  return DEMO;
+}
+function relDay(t){ if(!t) return tx('never'); const d=Math.round((Date.parse(dayKey())-Date.parse(dayKey(t)))/DAYMS); return d<=0?tx('ago_today'):d===1?tx('ago_yest'):tx('ago_days',{n:d}); }
+function fmtDay(t){ try{ return new Date(t).toLocaleDateString(LANG==='zh'?'zh-HK':'en-GB',{day:'numeric',month:'short',timeZone:'UTC'}); }catch(e){ return dayKey(t).slice(5); } }
+const pct=(c,n)=> n ? Math.round(c/n*100) : null;
+function classData(){
+  const C=[];
+  if(tDemoOn()) demoData().list.forEach(s=>C.push({id:s.id, name:demoName(s.n), events:s.events, boxes:s.boxes}));
+  Object.keys(S.profiles).forEach(k=>{
+    const p=S.profiles[k], log=p.log||[];
+    if(!log.length && !Object.keys(p.progress).length) return;
+    const boxes={}; Object.keys(p.progress).forEach(id=>{ boxes[id]=p.progress[id].box||0; });
+    C.push({id:'local:'+k, local:true, name:p.display||tx('guest'), events:log, boxes});
+  });
+  const now=Date.now(), ids=new Set(all().map(e=>e.id));
+  C.forEach(s=>studentStats(s, now, ids));
+  return C;
+}
+function studentStats(s, now, ids){
+  let a7=0,c7=0,ap=0,cp=0,tot=0,cor=0,last=0; const days=new Set(), word={};
+  s.events.forEach(e=>{
+    tot++; cor+=e.ok; if(e.t>last) last=e.t; days.add(dayKey(e.t));
+    if(e.t>now-7*DAYMS){ a7++; c7+=e.ok; } else if(e.t>now-14*DAYMS){ ap++; cp+=e.ok; }
+    const w=word[e.w]||(word[e.w]={n:0,c:0}); w.n++; w.c+=e.ok;
+  });
+  s.a7=a7; s.acc7=a7?c7/a7:null; s.accPrev=ap?cp/ap:null;
+  s.delta=(s.acc7!=null && s.accPrev!=null && ap>=5 && a7>=5) ? Math.round((s.acc7-s.accPrev)*100) : null;
+  s.total=tot; s.acc=tot?cor/tot:null; s.last=last||null; s.word=word;
+  s.mastered=Object.keys(s.boxes).filter(id=>ids.has(id) && s.boxes[id]>=4).length;
+  let st=0, k=Date.parse(dayKey()); if(!days.has(dayKey(k))) k-=DAYMS; while(days.has(dayKey(k))){ st++; k-=DAYMS; } s.streak=st;
+  if(!last){ s.status='new'; s.why=''; }
+  else if(now-last>7*DAYMS){ s.status='inactive'; s.why=tx('why_inactive',{d:relDay(last)}); }
+  else if(s.delta!=null && s.delta<=-10){ s.status='watch'; s.why=tx('why_drop',{n:-s.delta}); }
+  else if(a7<10){ s.status='watch'; s.why=tx('why_few',{n:a7}); }
+  else { s.status='active'; s.why=''; }
+}
+function classAgg(C){
+  const now=Date.now(), dk0=Date.parse(dayKey()), first=dk0-27*DAYMS;
+  const days=[]; for(let i=0;i<28;i++) days.push({t:first+i*DAYMS, n:0, c:0, s:new Set()});
+  const weeks=[]; for(let i=5;i>=0;i--){ const end=now-i*7*DAYMS; weeks.push({start:end-7*DAYMS, end, n:0, c:0}); }
+  const words={}; all().forEach(e=>{ words[e.id]={e, n:0, c:0, mast:0}; });
+  let a7=0,c7=0,ap=0,cp=0,active7=0,mastSum=0;
+  C.forEach(s=>{
+    s.events.forEach(ev=>{
+      const di=Math.floor((ev.t-first)/DAYMS); if(di>=0 && di<28){ const d=days[di]; d.n++; d.c+=ev.ok; d.s.add(s.id); }
+      for(const w of weeks){ if(ev.t>w.start && ev.t<=w.end){ w.n++; w.c+=ev.ok; break; } }
+      const W=words[ev.w]; if(W){ W.n++; W.c+=ev.ok; }
+      if(ev.t>now-7*DAYMS){ a7++; c7+=ev.ok; } else if(ev.t>now-14*DAYMS){ ap++; cp+=ev.ok; }
+    });
+    if(s.a7) active7++;
+    mastSum+=s.mastered;
+    Object.keys(s.boxes).forEach(id=>{ const W=words[id]; if(W && s.boxes[id]>=4) W.mast++; });
+  });
+  return {days, weeks, words:Object.values(words), a7,c7,ap,cp, active7, avgMast:C.length?mastSum/C.length:0, n:C.length};
+}
+const ST={active:['good','st_active','ok'], watch:['warn','st_watch','warnI'], inactive:['bad','st_inactive','clock'], new:['none','st_new','dash']};
+function stChip(s){ const d=ST[s.status]; return '<span class="st '+d[0]+'">'+ICON[d[2]]+th(d[1])+'</span>'; }
+function deltaHTML(d, unit){ if(d==null) return '<span class="delta flat">—</span>'; const cls=d>0?'up':d<0?'down':'flat'; return '<span class="delta '+cls+'">'+(d>0?'▲ +':d<0?'▼ ':'')+d+unit+'</span>'; }
+function kpi(k, v, sub){ return '<div class="panel kpi"><span class="k">'+k+'</span><span class="v">'+v+'</span><span class="sub">'+(sub||'')+'</span></div>'; }
+function niceStep(max){ const raw=Math.max(1,max)/4, p=Math.pow(10,Math.floor(Math.log10(raw))), m=raw/p; return (m<=1?1:m<=2?2:m<=5?5:10)*p; }
+function barChart(days){
+  const max=Math.max(1,...days.map(d=>d.n)), step=niceStep(max), top=Math.ceil(max/step)*step;
+  let gl=''; for(let v=0; v<=top; v+=step) gl+='<div class="gl" style="bottom:'+(v/top*100)+'%"><span>'+v+'</span></div>';
+  const cols=days.map((d,i)=>'<div class="c" data-tip="'+esc(tx('c_daily_tip',{d:fmtDay(d.t), n:d.n, s:d.s.size}))+'"><span class="b'+(d.n?'':' zero')+(i===days.length-1?' today':'')+'" style="height:'+(d.n/top*100)+'%"></span></div>').join('');
+  const xl=[0,7,14,21].map(i=>'<span style="grid-column:'+(i+1)+' / span 7">'+esc(fmtDay(days[i].t))+'</span>').join('');
+  return '<div class="bchart" role="img" aria-label="'+th('c_daily')+'"><div class="bplot">'+gl+'<div class="bars">'+cols+'</div></div><div class="xl">'+xl+'</div></div>';
+}
+function lineHolder(pts, tipKey){ return '<div class="lc" data-tipkey="'+tipKey+'" data-pts="'+esc(JSON.stringify(pts))+'"></div>'; }
+function lineSVG(el){
+  const pts=JSON.parse(el.dataset.pts||'[]'), tipKey=el.dataset.tipkey;
+  const vals=pts.filter(p=>p.v!=null).map(p=>p.v);
+  if(!vals.length){ el.innerHTML='<p class="muted">'+th('no_data')+'</p>'; return; }
+  const W=Math.max(260, el.clientWidth), H=190, L=44, Rr=30, T=18, B=28;
+  const hi=100, step=(hi-Math.min(...vals))>35?20:10; let lo=Math.max(0, Math.floor((Math.min(...vals)-5)/step)*step); if(hi-lo<2*step) lo=hi-2*step;
+  const n=pts.length, x=i=> L + (n===1 ? (W-L-Rr)/2 : i*(W-L-Rr)/(n-1)), y=v=> T+(hi-v)/(hi-lo)*(H-T-B);
+  let s='<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" role="img">';
+  for(let v=lo; v<=hi; v+=step) s+='<line class="grid" x1="'+L+'" x2="'+(W-Rr)+'" y1="'+y(v)+'" y2="'+y(v)+'"/><text class="ax" x="'+(L-8)+'" y="'+(y(v)+4)+'" text-anchor="end">'+v+'%</text>';
+  let d='', pen=false;
+  pts.forEach((p,i)=>{ if(p.v==null){ pen=false; return; } d+=(pen?'L':'M')+x(i).toFixed(1)+' '+y(p.v).toFixed(1); pen=true; });
+  s+='<path class="ln" d="'+d+'"/>';
+  let lastI=-1; pts.forEach((p,i)=>{ if(p.v!=null) lastI=i; });
+  pts.forEach((p,i)=>{
+    s+='<text class="ax" x="'+x(i)+'" y="'+(H-6)+'" text-anchor="middle">'+esc(p.l)+'</text>';
+    if(p.v!=null) s+='<circle class="dot" cx="'+x(i)+'" cy="'+y(p.v)+'" r="'+(i===lastI?5:4)+'"/>';
+  });
+  if(lastI>=0) s+='<text class="vl" x="'+x(lastI)+'" y="'+(y(pts[lastI].v)-11)+'" text-anchor="'+(lastI===n-1&&n>1?'end':'middle')+'">'+pts[lastI].v+'%</text>';
+  const cw=n>1?(W-L-Rr)/(n-1):(W-L-Rr);
+  pts.forEach((p,i)=>{ const tip=p.v==null? p.l+'\n'+tx('no_data') : tx(tipKey,{d:p.l, v:p.v, n:p.n}); const hx=Math.max(0,x(i)-cw/2); s+='<rect class="hit" x="'+hx+'" y="0" width="'+Math.min(cw, W-hx)+'" height="'+H+'" data-tip="'+esc(tip)+'"/>'; });
+  el.innerHTML=s+'</svg>';
+}
+function drawCharts(){ $$('.lc[data-pts]').forEach(lineSVG); }
+function weekPts(events){
+  const now=Date.now(), out=[];
+  for(let i=5;i>=0;i--){ const end=now-i*7*DAYMS, start=end-7*DAYMS; let n=0,c=0; events.forEach(e=>{ if(e.t>start && e.t<=end){ n++; c+=e.ok; } }); out.push({l:fmtDay(start+1), v:pct(c,n), n}); }
+  return out;
+}
+function viewTeacher(){
+  const C=classData(), A=classAgg(C);
+  const tabs=[['overview','t_tab_overview'],['students','t_tab_students'],['words','t_tab_words'],['manage','t_tab_manage']].map(([k,l])=>'<button data-act="t-tab" data-k="'+k+'" aria-pressed="'+(TV===k)+'">'+th(l)+'</button>').join('');
+  let body, stu=null;
+  if(TV==='students' && TSTU){ stu=C.find(x=>x.id===TSTU); if(!stu) TSTU=null; }
+  if(stu) body=tStudent(stu);
+  else if(TV==='students') body=tStudents(C);
+  else if(TV==='words') body=tWords(C, A);
+  else if(TV==='manage') body=tManage(C);
+  else body=tOverview(C, A);
+  return '<div class="t-banner">'+ICON.info+'<p>'+th('t_banner')+'</p></div>'+
+    '<div class="t-nav"><div class="seg" role="group" aria-label="'+th('t_head')+'">'+tabs+'</div><span class="muted small">'+th('students_n',{n:C.length})+'</span></div>'+body;
+}
+function tOverview(C, A){
+  const total=all().length, acc7=pct(A.c7,A.a7), accP=pct(A.cp,A.ap);
+  const ansDelta = A.ap ? Math.round((A.a7-A.ap)/A.ap*100) : null;
+  const kp='<section class="kpis">'+
+    kpi(th('k_active'), A.active7+'<small>/'+A.n+'</small>', th('k_active_sub'))+
+    kpi(th('k_answers'), A.a7, deltaHTML(ansDelta,'%')+' '+th('k_vs'))+
+    kpi(th('k_acc'), acc7==null?'—':acc7+'%', deltaHTML(acc7!=null&&accP!=null?acc7-accP:null, tx('pts'))+' '+th('k_vs'))+
+    kpi(th('k_mastered'), (Math.round(A.avgMast*10)/10)+'<small>/'+total+'</small>', th('k_mastered_sub',{n:total}))+
+  '</section>';
+  const charts='<div class="two-col">'+
+    '<section class="panel block"><div class="chart-h"><h3>'+th('c_daily')+'</h3><span class="muted small">'+th('c_daily_note')+'</span></div>'+barChart(A.days)+'</section>'+
+    '<section class="panel block"><div class="chart-h"><h3>'+th('c_weekly')+'</h3><span class="muted small">'+th('c_weekly_note')+'</span></div>'+lineHolder(A.weeks.map(w=>({l:fmtDay(w.start+1), v:pct(w.c,w.n), n:w.n})), 'c_week_tip')+'</section></div>';
+  const pri={inactive:0, watch:1};
+  const attn=C.filter(s=>s.status==='inactive'||s.status==='watch').sort((a,b)=>pri[a.status]-pri[b.status] || (a.last||0)-(b.last||0)).slice(0,8);
+  const hard=A.words.filter(w=>w.n>=5).sort((a,b)=>a.c/a.n-b.c/b.n).slice(0,6);
+  const lists='<div class="two-col">'+
+    '<section class="panel block"><div class="chart-h"><h3>'+th('attn_h')+'</h3><button class="linkish small" data-act="t-tab" data-k="students">'+th('see_all')+'</button></div>'+
+      (attn.length ? '<div class="attn">'+attn.map(s=>'<div><button class="t-name" data-act="t-student" data-id="'+esc(s.id)+'">'+esc(s.name)+(s.local?' <span class="tag local">'+th('tag_local')+'</span>':'')+'</button><span style="display:flex;gap:8px;align-items:center;flex-wrap:wrap"><span class="why">'+esc(s.why)+'</span>'+stChip(s)+'</span></div>').join('')+'</div>' : '<p class="muted">'+th('attn_none')+'</p>')+'</section>'+
+    '<section class="panel block"><div class="chart-h"><h3>'+th('hard_words')+'</h3><button class="linkish small" data-act="t-tab" data-k="words">'+th('see_all')+'</button></div>'+
+      (hard.length ? '<div class="attn">'+hard.map(w=>{ const a=pct(w.c,w.n); return '<div><span><strong>'+esc(w.e.w)+'</strong> ⇄ '+esc(w.e.s)+'</span><span class="accbar" style="flex:0 1 180px"><span class="track"><i style="width:'+a+'%"></i></span><span class="mono">'+a+'%</span></span></div>'; }).join('')+'</div>' : '<p class="muted">'+th('no_data')+'</p>')+'</section>'+
+  '</div>';
+  return kp+charts+lists;
+}
+function tStuTable(C){
+  const q=norm(T_Q), total=all().length, pr={inactive:0,watch:1,new:2,active:3};
+  const L=C.filter(s=>!q || norm(s.name).includes(q));
+  const sorters={
+    name:(a,b)=>(a.local?1:0)-(b.local?1:0) || a.name.localeCompare(b.name),
+    acc:(a,b)=>(b.acc7==null?-1:b.acc7)-(a.acc7==null?-1:a.acc7),
+    mastered:(a,b)=>b.mastered-a.mastered,
+    last:(a,b)=>(b.last||0)-(a.last||0),
+    status:(a,b)=>pr[a.status]-pr[b.status] || (a.acc7==null?1:a.acc7)-(b.acc7==null?1:b.acc7)
+  };
+  L.sort(sorters[T_SORT]||sorters.status);
+  if(!L.length) return '<div class="empty"><strong>'+th('no_students')+'</strong></div>';
+  return '<table class="board tstu"><thead><tr><th>'+th('col_student')+'</th><th class="num">'+th('col_ans7')+'</th><th class="num">'+th('col_acc7')+'</th><th>'+th('col_mastered')+'</th><th>'+th('col_status')+'</th></tr></thead><tbody>'+
+    L.map(s=>'<tr data-act="t-student" data-id="'+esc(s.id)+'"><td><button class="t-name" data-act="t-student" data-id="'+esc(s.id)+'">'+esc(s.name)+(s.local?' <span class="tag local">'+th('tag_local')+'</span>':'')+'</button><span class="muted small">'+th('last_prefix')+esc(relDay(s.last))+'</span></td>'+
+      '<td class="num">'+s.a7+'</td><td class="num">'+(s.acc7==null?'—':Math.round(s.acc7*100)+'%')+(s.delta==null?'':'<br>'+deltaHTML(s.delta,''))+'</td>'+
+      '<td><div class="mbar"><span class="track"><i style="width:'+(s.mastered/total*100)+'%"></i></span><span class="mono small">'+s.mastered+'/'+total+'</span></div></td><td>'+stChip(s)+'</td></tr>').join('')+
+  '</tbody></table>';
+}
+function tStudents(C){
+  const sorts=[['status','s_status'],['name','s_name'],['acc','s_acc'],['mastered','s_mastered'],['last','s_last']].map(([k,l])=>'<button data-act="t-sort" data-k="'+k+'" aria-pressed="'+(T_SORT===k)+'">'+th(l)+'</button>').join('');
+  return '<section class="panel"><div class="block" style="padding-bottom:12px"><input type="search" id="t-search" placeholder="'+th('t_search')+'" aria-label="'+th('t_search')+'" value="'+esc(T_Q)+'" autocapitalize="none" autocorrect="off"><div class="seg" role="group" aria-label="'+th('sort_label')+'">'+sorts+'</div></div><div class="table-wrap" id="t-stu-table">'+tStuTable(C)+'</div></section>';
+}
+function tStudent(s){
+  const total=all().length;
+  const dk0=Date.parse(dayKey()), cal=[]; for(let i=27;i>=0;i--) cal.push({t:dk0-i*DAYMS, n:0, c:0});
+  s.events.forEach(e=>{ const di=27-Math.round((dk0-Date.parse(dayKey(e.t)))/DAYMS); if(di>=0 && di<28){ cal[di].n++; cal[di].c+=e.ok; } });
+  const qOf=n=> n===0?'':n<10?'q1':n<20?'q2':n<30?'q4':'q5';
+  const calH='<div class="cal">'+cal.map(d=>'<span class="'+qOf(d.n)+'" data-tip="'+esc(d.n?tx('cal_tip_acc',{d:fmtDay(d.t), n:d.n, v:pct(d.c,d.n)}):tx('cal_tip',{d:fmtDay(d.t), n:0}))+'"></span>').join('')+'</div>'+
+    '<p class="muted small">'+esc(fmtDay(cal[0].t))+' – '+esc(fmtDay(cal[27].t))+'</p><div class="scale">'+th('less')+' <i class="qn"></i><i class="q1"></i><i class="q2"></i><i class="q4"></i><i class="q5"></i> '+th('more')+'</div>';
+  const chips='<div class="chips">'+all().map(e=>{ const b=s.boxes[e.id], ws=s.word[e.id]; const cls = b==null ? 'qn' : 'q'+b+' '+(b>=3?'hi':'lo');
+    return '<span class="wchip '+cls+'" data-tip="'+esc(e.w+' ⇄ '+e.s+'\n'+(b==null?tx('hm_none'):tx('lvl',{n:b}))+(ws?' · '+tx('att_line',{c:ws.c,n:ws.n}):''))+'">'+esc(wLabel(e))+'</span>'; }).join('')+'</div>'+
+    '<div class="scale">'+th('hm_none')+' <i class="qn"></i> · 0 <i class="q0"></i><i class="q1"></i><i class="q2"></i><i class="q3"></i><i class="q4"></i><i class="q5"></i> 5</div>';
+  const weak=Object.keys(s.word).map(id=>({e:byId(id), n:s.word[id].n, c:s.word[id].c})).filter(x=>x.e && x.n>=3 && x.c/x.n<.6).sort((a,b)=>a.c/a.n-b.c/b.n).slice(0,8);
+  const accAll=s.acc==null?'—':Math.round(s.acc*100)+'%';
+  return '<div class="toolbar"><button class="btn ghost sm" data-act="t-back">'+ICON.back+th('back_students')+'</button></div>'+
+    '<section class="section-head"><div><p class="eyebrow">'+th('t_tab_students')+'</p><h2>'+esc(s.name)+(s.local?' <span class="tag local">'+th('tag_local')+'</span>':'')+'</h2></div>'+stChip(s)+'</section>'+
+    (s.why?'<p class="muted">'+esc(s.why)+'</p>':'')+
+    '<section class="kpis">'+kpi(th('d_answers'), s.total, th('last_prefix')+esc(relDay(s.last)))+kpi(th('d_acc'), accAll, th('col_acc7')+': '+(s.acc7==null?'—':Math.round(s.acc7*100)+'%'+(s.delta==null?'':' '+deltaHTML(s.delta,''))))+kpi(th('d_mastered'), s.mastered+'<small>/'+total+'</small>', '')+kpi(th('d_streak'), s.streak, '')+'</section>'+
+    '<div class="two-col"><section class="panel block"><h3>'+th('d_weekly')+'</h3>'+lineHolder(weekPts(s.events),'s_week_tip')+'</section><section class="panel block"><h3>'+th('d_activity')+'</h3>'+calH+'</section></div>'+
+    '<section class="panel block"><div class="chart-h"><h3>'+th('d_words')+'</h3><span class="muted small">'+th('d_words_note')+'</span></div>'+chips+'</section>'+
+    '<section class="panel block"><h3>'+th('d_weak')+'</h3>'+(weak.length?'<div class="attn">'+weak.map(x=>{ const a=pct(x.c,x.n); return '<div><span><strong>'+esc(x.e.w)+'</strong> ⇄ '+esc(x.e.s)+'</span><span class="accbar" style="flex:0 1 200px"><span class="track"><i style="width:'+a+'%"></i></span><span class="mono">'+a+'%</span></span></div>'; }).join('')+'</div>':'<p class="muted">'+th('d_weak_none')+'</p>')+'</section>';
+}
+function tWords(C, A){
+  const N=C.length, acc=w=> w.n ? w.c/w.n : 2;
+  const W=A.words.slice();
+  if(W_SORT==='most') W.sort((a,b)=>b.n-a.n); else if(W_SORT==='mast') W.sort((a,b)=>b.mast-a.mast); else W.sort((a,b)=>acc(a)-acc(b));
+  const sorts=[['hard','w_sort_hard'],['most','w_sort_most'],['mast','w_sort_mast']].map(([k,l])=>'<button data-act="w-sort" data-k="'+k+'" aria-pressed="'+(W_SORT===k)+'">'+th(l)+'</button>').join('');
+  const list='<section class="panel"><div class="wl-head"><span>'+th('w_col_word')+'</span><span>'+th('w_acc')+'</span><span class="num wl-n">'+th('w_att')+'</span><span class="num">'+th('w_mast')+'</span></div>'+
+    W.map(w=>{ const a=pct(w.c,w.n); return '<div class="wl-row"><div class="wl-w"><strong>'+esc(w.e.w)+'</strong> ⇄ '+esc(w.e.s)+(w.e.zh?' <span class="zh muted small">'+esc(w.e.zh)+'</span>':'')+'</div><div class="accbar"><span class="track"><i style="width:'+(a||0)+'%"></i></span><span class="mono">'+(a==null?'—':a+'%')+'</span></div><span class="num wl-n">'+w.n+'</span><span class="num">'+w.mast+'/'+N+'</span></div>'; }).join('')+'</section>';
+  const cols=A.words.slice().sort((a,b)=>acc(a)-acc(b));
+  const rows=C.slice().sort((a,b)=>b.mastered-a.mastered);
+  const hm='<section class="panel block"><h3>'+th('hm_h')+'</h3><p class="note-line">'+th('hm_note')+'</p>'+
+    '<div class="scale">'+th('hm_none')+' <i class="qn"></i> · 0 <i class="q0"></i><i class="q1"></i><i class="q2"></i><i class="q3"></i><i class="q4"></i><i class="q5"></i> 5</div>'+
+    '<div class="hm-wrap"><table class="hm"><thead><tr><th class="hm-name"></th>'+cols.map(w=>'<th class="hm-w"><span>'+esc(wLabel(w.e))+'</span></th>').join('')+'</tr></thead><tbody>'+
+    rows.map(s=>'<tr><th class="hm-name">'+esc(s.name)+'</th>'+cols.map(w=>{ const b=s.boxes[w.e.id], ws=s.word[w.e.id];
+      return '<td><span class="'+(b==null?'qn':'q'+b)+'" data-tip="'+esc(tx('hm_tip',{s:s.name, w:w.e.w, lvl: b==null?tx('hm_none'):tx('lvl',{n:b}), att: ws?' · '+tx('att_line',{c:ws.c,n:ws.n}):''}))+'"></span></td>'; }).join('')+'</tr>').join('')+
+    '</tbody></table></div></section>';
+  return '<div class="seg" role="group" aria-label="'+th('sort_words')+'">'+sorts+'</div>'+list+hm;
+}
+function tManage(C){
+  const today=dayKey();
+  const nToday=S.board.filter(r=>r.day===today).length + (tDemoOn()&&S.demoClear!==today ? demoData().board.filter(r=>r.day===today).length : 0);
+  const cw = S.custom.length ? '<div class="cw-list">'+S.custom.map(c=>'<div><span><strong>'+esc(c.w)+'</strong> ⇄ '+esc(c.s)+(c.zh?' <span class="zh muted small">'+esc(c.zh)+'</span>':'')+'</span>'+
+      (T_DELW===c.id ? '<span class="confirm">'+th('del_q')+' <button class="btn danger sm" data-act="t-del-yes" data-id="'+c.id+'">'+th('del')+'</button><button class="btn ghost sm" data-act="t-del-no">'+th('keep')+'</button></span>' : '<button class="btn ghost sm" data-act="t-del" data-id="'+c.id+'">'+th('del')+'</button>')+'</div>').join('')+'</div>'
+    : '<p class="muted">'+th('m_words_none')+'</p>';
+  const clear = T_CLEAR
+    ? '<span class="confirm">'+th('clear_q')+' <button class="btn danger sm" data-act="t-clear-yes">'+th('clear')+'</button><button class="btn ghost sm" data-act="t-clear-no">'+th('cancel')+'</button></span>'
+    : '<button class="btn ghost sm" data-act="t-clear">'+th('clear_today')+'</button>';
+  return '<div class="two-col">'+
+    '<section class="panel block"><h3>'+th('m_words_h')+'</h3><p class="note-line">'+th('m_words_note')+'</p>'+
+      '<form id="t-add-form" class="form-grid" autocomplete="off"><div><label class="lbl" for="t-add-w">'+th('add_w')+'</label><input type="text" id="t-add-w" maxlength="40" autocapitalize="none" required></div><div><label class="lbl" for="t-add-s">'+th('add_s')+'</label><input type="text" id="t-add-s" maxlength="40" autocapitalize="none" required></div><div><label class="lbl" for="t-add-z">'+th('add_z')+'</label><input type="text" id="t-add-z" maxlength="40" class="zh"></div><div class="full"><label class="lbl" for="t-add-ex">'+th('add_ex')+'</label><input type="text" id="t-add-ex" maxlength="160"></div><div class="full toolbar"><button class="btn" type="submit">'+th('add_btn')+'</button><span class="msg" role="status">'+T_MSG+'</span></div></form>'+cw+'</section>'+
+    '<div style="display:flex;flex-direction:column;gap:16px;min-width:0">'+
+      '<section class="panel block"><h3>'+th('m_rank_h')+'</h3><p class="note-line">'+th('m_rank_note')+'</p><p class="small"><strong>'+th('m_rank_today',{n:nToday})+'</strong></p><div class="toolbar">'+clear+'</div></section>'+
+      '<section class="panel block"><h3>'+th('m_export_h')+'</h3><p class="note-line">'+th('m_export_note')+'</p><div class="toolbar"><button class="btn ghost" data-act="t-export">'+th('m_export_btn')+'</button></div><div id="t-csv-wrap" hidden><label class="lbl" for="t-csv">'+th('m_csv_label')+'</label><textarea id="t-csv" rows="4" readonly></textarea></div></section>'+
+      '<section class="panel block"><h3>'+th('m_demo_h')+'</h3><label class="switch" for="t-demo"><input type="checkbox" id="t-demo"'+(tDemoOn()?' checked':'')+'>'+th('m_demo_label')+'</label><p class="note-line">'+th('m_demo_note')+'</p></section>'+
+      '<section class="panel block"><h3>'+th('m_real_h')+'</h3><ul class="plain-list">'+raw('m_real_list')+'</ul></section>'+
+    '</div></div>';
+}
+function wLabel(e){ return all().filter(x=>norm(x.w)===norm(e.w)).length>1 ? e.w+' ('+e.s+')' : e.w; }
+function classCSV(){
+  const C=classData(), rows=[['student','last_practice','answers_7d','accuracy_7d','answers_total','accuracy_total','words_mastered','day_streak','status']];
+  C.forEach(s=>rows.push([s.name, s.last?dayKey(s.last):'', s.a7, s.acc7==null?'':Math.round(s.acc7*100)+'%', s.total, s.acc==null?'':Math.round(s.acc*100)+'%', s.mastered, s.streak, s.status]));
+  return rows.map(r=>r.map(csvCell).join(',')).join('\n');
+}
+function showTip(el){
+  const t=$('#tip'); t.textContent=el.getAttribute('data-tip'); t.hidden=false; TIP_FOR=el;
+  const r=el.getBoundingClientRect(), tw=t.offsetWidth, h=t.offsetHeight;
+  let left=r.left+r.width/2-tw/2; left=Math.max(8, Math.min(left, innerWidth-tw-8));
+  let top=r.top-h-8; if(top<8) top=r.bottom+8;
+  t.style.left=left+'px'; t.style.top=top+'px';
+}
+function hideTip(){ const t=$('#tip'); if(t && !t.hidden){ t.hidden=true; } TIP_FOR=null; }
+function handleAdd(prefix){
+  const g=id=>$('#'+prefix+id), vals={w:g('w').value, s:g('s').value, z:g('z').value, ex:g('ex').value}, w=vals.w.trim();
+  let msg, ok=false;
+  if(vals.ex.trim() && w && !new RegExp('\\b'+reEsc(w),'i').test(vals.ex)) msg='<span class="no">'+th('ex_missing',{w})+'</span>';
+  else {
+    const r=addCustom(vals.w,vals.s,vals.z,vals.ex); ok=r==='ok';
+    msg = ok ? '<span class="ok">'+th('added',{w, s:vals.s.trim()})+'</span>' : r==='dupe' ? '<span class="no">'+th('dupe')+'</span>' : '<span class="no">'+th('missing')+'</span>';
+    if(ok){ save(); buildIndex(); }
+  }
+  return {ok, msg, vals};
+}
+
 /* ================= EVENTS ================= */
 function refreshWords(){ const l=$('#wlist'); if(l) l.innerHTML=wordRows(); }
 document.addEventListener('click', ev=>{
+  const tipEl=ev.target.closest('[data-tip]');
+  if(tipEl && !ev.target.closest('[data-act],[data-go],[data-start],a,input,button')){ if(TIP_FOR===tipEl) hideTip(); else showTip(tipEl); return; }
+  hideTip();
   const g=ev.target.closest('[data-go]'); if(g){ ev.preventDefault(); go(g.dataset.go); return; }
   const st=ev.target.closest('[data-start]'); if(st){ ev.preventDefault(); start(st.dataset.start); return; }
   const a=ev.target.closest('[data-act]'); if(!a) return;
@@ -1438,7 +1928,7 @@ document.addEventListener('click', ev=>{
     case 'board-tab': BOARD_TAB=a.dataset.k; BOARD_CONFIRM=false; render(); break;
     case 'board-clear': BOARD_CONFIRM=true; render(); break;
     case 'board-clear-no': BOARD_CONFIRM=false; render(); break;
-    case 'board-clear-yes': { const t=dayKey(); S.board=S.board.filter(r=>r.day!==t); save(); BOARD_CONFIRM=false; render(); toast(tx('cleared')); break; }
+    case 'board-clear-yes': case 't-clear-yes': { const t=dayKey(); S.board=S.board.filter(r=>r.day!==t); S.demoClear=t; save(); BOARD_CONFIRM=false; T_CLEAR=false; render(); toast(tx('cleared')); break; }
     case 'wfilter': W_FILTER=a.dataset.k; $$('.filters .fchip').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.k===W_FILTER))); W_DEL=null; refreshWords(); break;
     case 'del': ev.preventDefault(); W_DEL=a.dataset.id; refreshWords(); break;
     case 'del-no': ev.preventDefault(); W_DEL=null; refreshWords(); break;
@@ -1459,6 +1949,22 @@ document.addEventListener('click', ev=>{
       const ta2=$('#import-in'); if(ta2) ta2.value=keepTxt;
       break;
     }
+    case 't-tab': TV=a.dataset.k; TSTU=null; T_CLEAR=false; T_DELW=null; render(); window.scrollTo(0,0); break;
+    case 't-student': TV='students'; TSTU=a.dataset.id; render(); window.scrollTo(0,0); break;
+    case 't-back': TSTU=null; render(); window.scrollTo(0,0); break;
+    case 't-sort': { T_SORT=a.dataset.k; $$('[data-act="t-sort"]').forEach(b=>b.setAttribute('aria-pressed', String(b.dataset.k===T_SORT))); const tb=$('#t-stu-table'); if(tb) tb.innerHTML=tStuTable(classData()); break; }
+    case 'w-sort': W_SORT=a.dataset.k; render(); break;
+    case 't-clear': T_CLEAR=true; render(); break;
+    case 't-clear-no': T_CLEAR=false; render(); break;
+    case 't-del': T_DELW=a.dataset.id; render(); break;
+    case 't-del-no': T_DELW=null; render(); break;
+    case 't-del-yes': { const id=a.dataset.id; S.custom=S.custom.filter(c=>c.id!==id); Object.values(S.profiles).forEach(p=>{ delete p.progress[id]; delete p.mistakes[id]; }); T_DELW=null; save(); buildIndex(); render(); toast(tx('deleted')); break; }
+    case 't-export': {
+      const csv=classCSV();
+      const fallback=()=>{ const w=$('#t-csv-wrap'), o=$('#t-csv'); if(w&&o){ w.hidden=false; o.value=csv; o.focus(); o.select(); } toast(tx('copy_blocked')); };
+      try{ navigator.clipboard.writeText(csv).then(()=>toast(tx('csv_copied')), fallback); }catch(e){ fallback(); }
+      break;
+    }
     case 'reset': RESET_CONFIRM=true; render(); break;
     case 'reset-no': RESET_CONFIRM=false; render(); break;
     case 'reset-yes': { const d=P().display; S.profiles[S.current]=blankProfile(d); save(); RESET_CONFIRM=false; render(); toast(tx('reset_done')); break; }
@@ -1471,6 +1977,12 @@ document.addEventListener('submit', ev=>{
   if(id==='name-form'){ const n=$('#name-in'), v=n?n.value.trim():''; if(!v){ if(n) n.focus(); toast(tx('need_name')); return; } n.blur(); setName(v); render(); return; }
   if(id==='speed-form'){ speedGo(); return; }
   if(id==='match-form'){ matchGo(true); return; }
+  if(id==='t-add-form'){
+    const r=handleAdd('t-add-');
+    T_MSG=r.msg; render(); T_MSG='';
+    if(!r.ok){ $('#t-add-w').value=r.vals.w; $('#t-add-s').value=r.vals.s; $('#t-add-z').value=r.vals.z; $('#t-add-ex').value=r.vals.ex; }
+    return;
+  }
   if(id==='add-form'){
     const vals={w:$('#add-w').value, s:$('#add-s').value, z:$('#add-z').value, ex:$('#add-ex').value};
     const w=vals.w.trim();
@@ -1486,7 +1998,19 @@ document.addEventListener('submit', ev=>{
     if(!ok){ $('#add-w').value=vals.w; $('#add-s').value=vals.s; $('#add-z').value=vals.z; $('#add-ex').value=vals.ex; }
   }
 });
-document.addEventListener('input', ev=>{ if(ev.target.id==='wsearch'){ W_QUERY=ev.target.value; W_DEL=null; refreshWords(); } });
+document.addEventListener('input', ev=>{
+  if(ev.target.id==='wsearch'){ W_QUERY=ev.target.value; W_DEL=null; refreshWords(); }
+  if(ev.target.id==='t-search'){ T_Q=ev.target.value; const tb=$('#t-stu-table'); if(tb) tb.innerHTML=tStuTable(classData()); }
+});
+document.addEventListener('change', ev=>{ if(ev.target.id==='t-demo'){ S.tdemo=ev.target.checked; save(); render(); } });
+document.addEventListener('pointerover', ev=>{
+  if(ev.pointerType!=='mouse') return;
+  const el=ev.target.closest && ev.target.closest('[data-tip]');
+  if(el){ if(el!==TIP_FOR) showTip(el); } else if(TIP_FOR) hideTip();
+});
+window.addEventListener('scroll', ()=>{ if(TIP_FOR) hideTip(); }, {passive:true});
+let rsT=null;
+window.addEventListener('resize', ()=>{ hideTip(); clearTimeout(rsT); rsT=setTimeout(()=>{ if(VIEW==='teacher' && !SES) drawCharts(); }, 150); });
 document.addEventListener('keydown', ev=>{
   if(!SES || ev.metaKey || ev.ctrlKey || ev.altKey) return;
   const tg=ev.target, tag=tg && tg.tagName, typing = tag==='INPUT' || tag==='TEXTAREA';
@@ -1507,6 +2031,7 @@ document.addEventListener('keydown', ev=>{
 const h=(location.hash||'').replace('#','');
 if(VIEWS.includes(h)) VIEW=h;
 render();
+window.addEventListener('hashchange', ()=>{ const v=(location.hash||'').replace('#',''); if(VIEWS.includes(v) && (v!==VIEW || SES)) go(v); });
 })();
 </script>
 </body>
